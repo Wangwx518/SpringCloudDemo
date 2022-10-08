@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "client.healthcheck.enabled",
+      "type": "java.lang.String",
+      "description": "Description for client.healthcheck.enabled."
+    },
+    {
+      "name": "client.fetch-registry",
+      "type": "java.lang.String",
+      "description": "Description for client.fetch-registry."
+    }
+  ] }

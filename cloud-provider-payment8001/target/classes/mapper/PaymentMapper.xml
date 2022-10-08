@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangwx.springcloud.dao.PaymentDao">
+
+    <resultMap type="com.wangwx.springcloud.entity.Payment" id="PaymentMap">
+        <result property="paymentId" column="payment_id" jdbcType="BIGINT"/>
+        <result property="serial" column="serial" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--
+        &lt;!&ndash;查询单个&ndash;&gt;
+        <select id="queryById" resultMap="PaymentMap">
+            select
+              payment_id, serial
+            from payment
+            where payment_id = #{paymentId}
+        </select>
+
+        &lt;!&ndash;查询指定行数据&ndash;&gt;
+        <select id="queryAllByLimit" resultMap="PaymentMap">
+            select
+              payment_id, serial
+            from payment
+            <where>
+                <if test="paymentId != null">
+                    and payment_id = #{paymentId}
+                </if>
+                <if test="serial != null and serial != ''">
+                    and serial = #{serial}
+                </if>
+            </where>
+            limit #{pageable.offset}, #{pageable.pageSize}
+        </select>
+
+        &lt;!&ndash;统计总行数&ndash;&gt;
+        <select id="count" resultType="java.lang.Long">
+            select count(1)
+            from payment
+            <where>
+                <if test="paymentId != null">
+                    and payment_id = #{paymentId}
+                </if>
+                <if test="serial != null and serial != ''">
+                    and serial = #{serial}
+                </if>
+            </where>
+        </select>
+
+        &lt;!&ndash;新增所有列&ndash;&gt;
+        <insert id="insert" keyProperty="paymentId" useGeneratedKeys="true">
+            insert into payment(serial)
+            values (#{serial})
+        </insert>
+
+        <insert id="insertBatch" keyProperty="paymentId" useGeneratedKeys="true">
+            insert into payment(serial)
+            values
+            <foreach collection="entities" item="entity" separator=",">
+            (#{entity.serial})
+            </foreach>
+        </insert>
+
+        <insert id="insertOrUpdateBatch" keyProperty="paymentId" useGeneratedKeys="true">
+            insert into payment(serial)
+            values
+            <foreach collection="entities" item="entity" separator=",">
+                (#{entity.serial})
+            </foreach>
+            on duplicate key update
+            serial = values(serial)
+        </insert>
+
+        &lt;!&ndash;通过主键修改数据&ndash;&gt;
+        <update id="update">
+            update payment
+            <set>
+                <if test="serial != null and serial != ''">
+                    serial = #{serial},
+                </if>
+            </set>
+            where payment_id = #{paymentId}
+        </update>
+
+        &lt;!&ndash;通过主键删除&ndash;&gt;
+        <delete id="deleteById">
+            delete from payment where payment_id = #{paymentId}
+        </delete>-->
+    <insert id="create" parameterType="Payment" useGeneratedKeys="true" keyProperty="paymentId">
+        insert into payment(serial)
+        values (#{serial})
+    </insert>
+    <select id="getPaymentById" parameterType="Long" resultMap="PaymentMap">
+        select *
+        from payment
+        where payment_id = #{paymentId}
+    </select>
+</mapper>
+
