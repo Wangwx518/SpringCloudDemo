@@ -186,6 +186,51 @@ application.yml
 服务熔断触发服务降级
 线程池/信号量打满也会导致服务降级
 
+客户端：
+配置文件：
+feign:
+    hystrix:
+        enabled: true
+
+
+接口加注解和兜底方法：
+@HystrixCommand(fallbackMethod = "paymentTimeOutFallBackMethod",commandProperties = {
+@HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="1500")
+})
+public String paymentTimeOutFallBackMethod(Integer id) {
+return"我是消费者80，对方支付系统繁忙请10秒钟后再试或者自己运行出错请检查自己，o(T_T)o";
+}
+主方法增加@EnableCircuitBreaker注解
+
+服务端：
+主方法增加@EnableCircuitBreaker注解
+接口加注解和兜底方法：
+@HystrixCommand(fallbackMethod = "paymentTimeOutFallBackMethod",commandProperties = {
+@HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="1500")
+})
+//无论上述方法超时或是异常报错，皆会走此方法！
+public String paymentInfo_TimeOutHandler(Integer id) 
+{
+        return "线程池："+Thread.currentThread().getName() + "   系统繁忙或者运行报错，请稍后再试！";
+    }
+
+
+优化：
+    1.设置全局fallback
+类加注解
+@DefaultProperties(defaultFallback = "payment_Global_FallbackMethod")
+如果设定
+@HystrixCommand(fallbackMethod = "paymentTimeOutFallBackMethod",commandProperties = {
+@HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="1500")
+})则走设置的方法
+如果只设置了@HystrixCommand
+则走全局的fallback
+    2.增加方法
+        public String payment_Global_FallbackMethod(){
+             return "Global异常处理信息，请稍后再试，/(ToT)/~";
+        }
+
+
 **Hystrix--服务熔断->break**
 类比保险丝达到最大访问后，直接拒绝访问，拉闸限电，然后调用服务降级的方法，并返回友好提示！
 **Hystrix--服务限流->flowLimit**

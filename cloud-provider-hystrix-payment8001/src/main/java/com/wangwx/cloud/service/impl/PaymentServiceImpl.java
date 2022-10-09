@@ -1,5 +1,6 @@
 package com.wangwx.cloud.service.impl;
 
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.wangwx.cloud.service.PaymentService;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @Version 1.0
  **/
 @Service
+@DefaultProperties(defaultFallback = "payment_Global_FallbackMethod")
 public class PaymentServiceImpl implements PaymentService {
 /*
     * 正常访问的方法
@@ -32,11 +34,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     //超时方法
     @Override
-    @HystrixCommand(fallbackMethod = "paymentInfo_TimeOutHandler",commandProperties = {
-            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000")
-    })
+    //@HystrixCommand(fallbackMethod = "paymentInfo_TimeOutHandler",commandProperties = {
+    //        @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="5000")
+    //})
+    @HystrixCommand
     public String paymentInfo_TimeOut(Integer id) {
-        //int timeOutNumber = 5;
+        //int timeOutNumber = 3;
         int age = 10/0;
 
         //try {
@@ -51,6 +54,12 @@ public class PaymentServiceImpl implements PaymentService {
 //无论上述方法超时或是异常报错，皆会走此方法！
     public String paymentInfo_TimeOutHandler(Integer id) {
         return "线程池："+Thread.currentThread().getName() + "   系统繁忙或者运行报错，请稍后再试！";
+
+    }
+
+    //下面是全局fallback
+    public String payment_Global_FallbackMethod(){
+        return "Global异常处理信息，请稍后再试，/(ToT)/~";
 
     }
 }
