@@ -2,7 +2,7 @@
 自学springCloud
 
 
-*********************************************************************服务注册******************************************************************************************
+**************************************************服务注册**************************************************
 
 
 ###########Eureka#################
@@ -153,3 +153,40 @@ application.yml
       discovery:
         #hostname: 127.0.0.1
         service-name: ${spring.application.name}
+
+**********服务调用**********
+**OpenFeign**
+客户端主方法增加注解：@EnableFeignClients
+                service接口增加注解：@Component
+                                                            @FeignClient(value = "微服务名称")
+
+例：
+        `@Component
+        @FeignClient(value = "cloud-provider-hystrix-payment")
+        public interface PaymentHystrixService {
+            @GetMapping("/payment/hystrix/ok/{id}")
+            public String paymentInfo_Ok(@PathVariable("id") Integer id);
+        
+            @GetMapping("/payment/hystrix/timeout/{id}")
+            public String paymentInfo_TimeOut(@PathVariable("id") Integer id);
+        }`
+
+
+
+
+
+
+***********************************服务断路***********************************
+**Hystrix--服务降级->fallback**
+服务器忙，请稍后再试，不让客户端等待并立刻返回一个友好提示
+
+哪些情况会出发降级?
+程序运行异常
+超时
+服务熔断触发服务降级
+线程池/信号量打满也会导致服务降级
+
+**Hystrix--服务熔断->break**
+类比保险丝达到最大访问后，直接拒绝访问，拉闸限电，然后调用服务降级的方法，并返回友好提示！
+**Hystrix--服务限流->flowLimit**
+秒杀高并发等操作，严禁一窝蜂的过来拥挤，大家排队，一秒N个，有序进行
