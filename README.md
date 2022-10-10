@@ -1,5 +1,6 @@
 # SpringCloudDemo
 自学springCloud
+![img_1.png](images/liuchengtu.png)
 
 
 **************************************************服务注册中心**************************************************
@@ -233,6 +234,13 @@ public String paymentInfo_TimeOutHandler(Integer id)
 
 **Hystrix--服务熔断->break**
 类比保险丝达到最大访问后，直接拒绝访问，拉闸限电，然后调用服务降级的方法，并返回友好提示！
-![img.png](img.png)
+![img.png](images/HystrixCircuitBreaker.png)
 **Hystrix--服务限流->flowLimit**
 秒杀高并发等操作，严禁一窝蜂的过来拥挤，大家排队，一秒N个，有序进行
+
+
+
+
+**服务网关GateWay**
+application.yml
+![img.png](images/gateway-application.yml.png)
