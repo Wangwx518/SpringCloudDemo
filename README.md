@@ -244,3 +244,9 @@ public String paymentInfo_TimeOutHandler(Integer id)
 **服务网关GateWay**
 application.yml
 ![img.png](images/gateway-application.yml.png)
+
+网关路由配置1
+![img.png](images/gateway-route1.png)
+
+网关路由配置2
+![img.png](images/gateway-route2.png)
