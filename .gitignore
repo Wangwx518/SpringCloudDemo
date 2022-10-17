@@ -1,1 +1,4 @@
-/cloud-config-center-3344/target/classes/application.yml
+/target/
+/.idea/
+/.settings/
+*.iml
