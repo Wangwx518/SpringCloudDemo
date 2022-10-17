@@ -1,4 +1,13 @@
+*.classpath
+*.project
+*.prefs
 /target/
-/.idea/
+/.classpath
+/.project
 /.settings/
+/.gitignore
+*.bak
 *.iml
+.idea/
+.vscode
+**/target
