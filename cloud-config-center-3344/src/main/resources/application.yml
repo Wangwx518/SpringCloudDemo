@@ -12,7 +12,13 @@ spring:
           search-paths:
             - springcloud-config
       label: master
-
+      #rabbitmq相关配置
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+#服务注册发现中心
 eureka:
   client:
     #表示是否将白己E册Eurekaserver默以为true。
@@ -25,3 +31,10 @@ eureka:
   instance:
     prefer-ip-address: true #显示IP
     instance-id: configServer3344
+
+#rabbit相关配置，暴露bus刷新配置的端口号
+management:
+  endpoints:            #暴露bus刷新配置的端口号
+    web:
+      exposure:
+        include: 'bus-refresh'
