@@ -8,7 +8,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/Wangwx518/springcloud-config.git
+          uri: https://gitee.com/wangwx518/springcloud-config.git
           search-paths:
             - springcloud-config
       label: master
